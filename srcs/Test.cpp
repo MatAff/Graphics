@@ -2,6 +2,7 @@
 #include "Vec.h"
 #include "QuadEq.h"
 #include "Triangle.h"
+#include "Sphere.h"
 
 // Main program
 int main(int argc,char ** argv)
@@ -20,4 +21,10 @@ int main(int argc,char ** argv)
 
     // Triangle
     Triangle t(Vec(0,0,0), Vec(0,1,0), Vec(0,0,1));
+    std::cout << std::endl; // White line
+
+    // Sphere
+    Sphere s(Vec(0,0,0), 0.5);
+    std::cout << std::endl; // White line
+
 }
