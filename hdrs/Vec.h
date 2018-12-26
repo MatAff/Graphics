@@ -1,0 +1,27 @@
+#pragma once
+
+#include <stdio.h>
+#include <iostream>
+#include <string>
+
+
+class Vec
+{
+public:
+    Vec(float x, float y);
+    Vec(float x, float y, float z);
+
+    ~Vec();
+
+    float dot(Vec other);
+    float len();
+
+    //std::string toString();
+    void print();
+
+private:
+    short size;
+    float x;
+    float y;
+    float z;
+};
