@@ -2,7 +2,7 @@ HDR_DIR = ./hdrs
 SRC_DIR = ./srcs
 OBJ_DIR = ./objs
 
-IGNORE := $(SRC_DIR)/Test.cpp
+IGNORE := $(SRC_DIR)/Test.cpp $(SRC_DIR)/Rend.cpp
 #$(info $$IGNORE is [${IGNORE}])
 
 CC_FILES := $(filter-out $(IGNORE), $(wildcard $(SRC_DIR)/*.cpp))
@@ -11,8 +11,8 @@ CC_FILES := $(filter-out $(IGNORE), $(wildcard $(SRC_DIR)/*.cpp))
 OBJ_FILES := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(CC_FILES))
 #$(info $$OBJ_FILES is [${OBJ_FILES}])
 
-TARGETS = Test
-DEFAULT_TGT = Test
+TARGETS = Rend
+DEFAULT_TGT = Rend
 
 CC=g++
 OPT=-flto -O3
@@ -26,6 +26,9 @@ LDFLAGS=$(CVLIBS) -lwiringPi -lpthread -lcrypt -lrt -L/usr/local/lib
 all: $(DEFAULT_TGT)
 
 everything: $(TARGETS)
+
+Rend: $(OBJ_FILES)
+	$(CC) $(DEBUG) $(CFLAGS) $(INC) $(SRC_DIR)/$@.cpp -o $@ $^ $(LDFLAGS)
 
 Test: $(OBJ_FILES)
 	$(CC) $(DEBUG) $(CFLAGS) $(INC) $(SRC_DIR)/$@.cpp -o $@ $^ $(LDFLAGS)

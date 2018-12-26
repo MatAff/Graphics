@@ -8,6 +8,7 @@
 class Vec
 {
 public:
+    Vec();
     Vec(float x, float y);
     Vec(float x, float y, float z);
 

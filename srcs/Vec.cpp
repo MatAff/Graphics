@@ -2,6 +2,8 @@
 #include "Vec.h"
 #include <math.h>
 
+Vec::Vec() {}
+
 Vec::Vec(float x, float y)
 {
     this->x = x;

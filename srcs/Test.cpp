@@ -1,6 +1,7 @@
 
 #include "Vec.h"
 #include "QuadEq.h"
+#include "Triangle.h"
 
 // Main program
 int main(int argc,char ** argv)
@@ -15,5 +16,8 @@ int main(int argc,char ** argv)
     // Quadratic equation
     QuadEq::solve(1, 3, -4);
     QuadEq::solve(1, 6, 9);
-    
+    std::cout << std::endl; // White line
+
+    // Triangle
+    Triangle t(Vec(0,0,0), Vec(0,1,0), Vec(0,0,1));
 }
