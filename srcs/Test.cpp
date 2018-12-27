@@ -41,4 +41,11 @@ int main(int argc,char ** argv)
     sphereRes.print();
     std::cout << std::endl; // White line
 
+    // Triangle intersect
+    dir = Vec(2,1,1);
+    Triangle t2(Vec(2, 0, 0), Vec(0, 1, 0), Vec(0, 0, 1));
+    Vec triangleRes = t2.intersect(eye, dir);
+    triangleRes.print();
+    std::cout << std::endl; // White line
+
 }

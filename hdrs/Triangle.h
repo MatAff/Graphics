@@ -11,7 +11,7 @@ public:
     Triangle(Vec a, Vec b, Vec c);
     ~Triangle();
 
-    Vec intersect(Vec ray);
+    Vec intersect(Vec eye, Vec dir);
 
 private:
     Vec a;

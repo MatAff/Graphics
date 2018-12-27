@@ -23,7 +23,7 @@ public:
     //std::string toString();
     void print();
 
-private:
+//private:
     short size;
     float x;
     float y;
