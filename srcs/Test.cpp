@@ -3,6 +3,7 @@
 #include "QuadEq.h"
 #include "Triangle.h"
 #include "Sphere.h"
+#include <vector>
 
 // Main program
 int main(int argc,char ** argv)
@@ -25,8 +26,7 @@ int main(int argc,char ** argv)
     std::cout << std::endl; // White line
 
     // Quadratic equation
-    QuadEq::solve(1, 3, -4);
-    QuadEq::solve(1, 6, 9);
+    std::vector<float> res = QuadEq::solve(1, 3, -4);
     std::cout << std::endl; // White line
 
     // Triangle
@@ -37,7 +37,8 @@ int main(int argc,char ** argv)
     Vec eye(0, 0, 0);
     Vec dir(10, 1, 0);
     Sphere s(Vec(10, 0, 0), 2); // Sphere with radius 2
-    s.intersect(eye, dir);
+    Vec sphereRes = s.intersect(eye, dir);
+    sphereRes.print();
     std::cout << std::endl; // White line
 
 }

@@ -33,9 +33,17 @@ float Vec::len()
 
 Vec Vec::operator-(Vec other)
 {
-    this->print();
-    other.print();
     return(Vec(x - other.x, y - other.y, z - other.z));
+}
+
+Vec Vec::operator+(Vec other)
+{
+    return(Vec(x + other.x, y + other.y, z + other.z));
+}
+
+Vec Vec::operator*(float s)
+{
+    return(Vec(x * s, y * s, z * s));
 }
 
 void Vec::print()

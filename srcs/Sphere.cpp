@@ -16,7 +16,11 @@ Vec Sphere::intersect(Vec eye, Vec dir)
     float A = dir.dot(dir);
     float B = 2 * dir.dot(shift);
     float C = shift.dot(shift) - r * r;
-    QuadEq::solve(A, B, C); 
-    return Vec(0, 0, 0); // Placeholder
+    std::vector<float> res = QuadEq::solve(A, B, C); 
+    float t = res[1];
+    std::cout << t << std::endl;
+    Vec p = eye + (dir * t);
+    //float t = QuadEq::minPositive(res);
+    return p;
 }
 
