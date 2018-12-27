@@ -11,7 +11,7 @@ public:
     Sphere(Vec c, float r); 
     ~Sphere();
 
-    Vec intersect(Vec ray);
+    Vec intersect(Vec eye, Vec dir);
 
 private:
     Vec c;

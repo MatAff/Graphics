@@ -33,8 +33,11 @@ int main(int argc,char ** argv)
     Triangle t(Vec(0,0,0), Vec(0,1,0), Vec(0,0,1));
     std::cout << std::endl; // White line
 
-    // Sphere
-    Sphere s(Vec(0,0,0), 0.5);
+    // Sphere intersect
+    Vec eye(0, 0, 0);
+    Vec dir(10, 1, 0);
+    Sphere s(Vec(10, 0, 0), 2); // Sphere with radius 2
+    s.intersect(eye, dir);
     std::cout << std::endl; // White line
 
 }
