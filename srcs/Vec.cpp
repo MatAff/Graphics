@@ -1,4 +1,3 @@
-
 #include "Vec.h"
 #include <math.h>
 
@@ -13,9 +12,10 @@ Vec::Vec(float x, float y)
 
 Vec::Vec(float x, float y, float z)
 {
-   Vec(x, y);
-   size = 3;
-   this->z = z;
+    this->x = x;
+    this->y = y;
+    this->z = z;
+    size = 3;
 }
 
 Vec::~Vec() { }
@@ -29,6 +29,13 @@ float Vec::dot(Vec other)
 float Vec::len() 
 {
     return sqrt(this->dot(*this));
+}
+
+Vec Vec::operator-(Vec other)
+{
+    this->print();
+    other.print();
+    return(Vec(x - other.x, y - other.y, z - other.z));
 }
 
 void Vec::print()

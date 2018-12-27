@@ -14,6 +14,16 @@ int main(int argc,char ** argv)
     std::cout << v.len() << std::endl;
     std::cout << std::endl; // White line
 
+    // Vector subtraction
+    std::cout << "Vector subtraction" << std::endl;
+    Vec a(3, 1, 0);
+    Vec b(1, 1, 1);
+    a.print();
+    b.print();
+    Vec delta = a - b;
+    delta.print();
+    std::cout << std::endl; // White line
+
     // Quadratic equation
     QuadEq::solve(1, 3, -4);
     QuadEq::solve(1, 6, 9);

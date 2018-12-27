@@ -16,6 +16,7 @@ public:
 
     float dot(Vec other);
     float len();
+    Vec operator-(Vec other);
 
     //std::string toString();
     void print();
