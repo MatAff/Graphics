@@ -26,6 +26,13 @@ float Vec::dot(Vec other)
    return x * other.x + y * other.y + z * other.z; 
 }
 
+Vec Vec::cross(Vec other)
+{
+    return Vec(y * other.z - z * other.y,
+               z * other.x - x * other.z,
+               x * other.y - y * other.x);
+}
+
 float Vec::len() 
 {
     return sqrt(this->dot(*this));
@@ -44,6 +51,11 @@ Vec Vec::operator+(Vec other)
 Vec Vec::operator*(float s)
 {
     return(Vec(x * s, y * s, z * s));
+}
+
+Vec Vec::operator/(float s)
+{
+    return(Vec(x / s, y / s, z / s));
 }
 
 void Vec::print()

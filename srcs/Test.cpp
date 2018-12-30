@@ -8,22 +8,16 @@
 // Main program
 int main(int argc,char ** argv)
 {
-    // Vector
-    Vec v(1,1);
+    // Cross product
+    Vec a(10, 0, 0);
+    Vec b(0, 0, 10);
+    Vec w = a / a.len();
+    w.print();
+    Vec u = b.cross(w);
+    u = u / u.len();
+    u.print();
+    Vec v = w.cross(u);
     v.print();
-    std::cout << v.dot(v) << std::endl;
-    std::cout << v.len() << std::endl;
-    std::cout << std::endl; // White line
-
-    // Vector subtraction
-    std::cout << "Vector subtraction" << std::endl;
-    Vec a(3, 1, 0);
-    Vec b(1, 1, 1);
-    a.print();
-    b.print();
-    Vec delta = a - b;
-    delta.print();
-    std::cout << std::endl; // White line
 
     // Quadratic equation
     std::vector<float> res = QuadEq::solve(1, 3, -4);

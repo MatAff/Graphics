@@ -4,8 +4,9 @@
 #include <iostream>
 #include <string>
 #include "Vec.h"
+#include "Surface.h"
 
-class Triangle
+class Triangle : public Surface
 {
 public:
     Triangle(Vec a, Vec b, Vec c);
