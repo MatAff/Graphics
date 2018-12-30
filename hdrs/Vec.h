@@ -17,7 +17,7 @@ public:
     float dot(Vec other);
     Vec cross(Vec other);
     float len();
-    Vec rotate(float xRad, float yRad, float zRad);
+    Vec rotateZ(float rad);
     Vec operator-(Vec other);
     Vec operator+(Vec other);
     Vec operator*(float s);

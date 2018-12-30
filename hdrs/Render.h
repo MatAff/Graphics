@@ -22,7 +22,7 @@ private:
     Vec l;
 
     // View frame
-    float distance = 10;
+    float distance = 5;
     float left = -6;
     float right = 6;
     float top = 4;

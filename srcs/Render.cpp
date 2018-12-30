@@ -19,8 +19,11 @@ Render::~Render() { }
 void Render::render(cv::Mat& frame, std::vector<Surface*> sfVec, Vec eye, Vec dir)
 {
 
+    // Clear frame
+    frame = cv::Scalar(0, 0, 0);
+
     // View frame
-    Vec w = dir / dir.len();
+    Vec w = dir / -dir.len();
     Vec u = Vec(0,0,1).cross(w);
     u = u / u.len();
     Vec v = w.cross(u);

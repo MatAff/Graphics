@@ -20,10 +20,10 @@ Vec::Vec(float x, float y, float z)
 
 Vec::~Vec() { }
 
-float Vec::dot(Vec other) 
+float Vec::dot(Vec other)
 {
    if (size!=other.size) { std::cerr << "Vector size does not match"; }
-   return x * other.x + y * other.y + z * other.z; 
+   return x * other.x + y * other.y + z * other.z;
 }
 
 Vec Vec::cross(Vec other)
@@ -33,9 +33,16 @@ Vec Vec::cross(Vec other)
                x * other.y - y * other.x);
 }
 
-float Vec::len() 
+float Vec::len()
 {
     return sqrt(this->dot(*this));
+}
+
+Vec Vec::rotateZ(float rad)
+{
+    return Vec(x * cos(rad) - y * sin(rad),
+               x * sin(rad) + y * cos(rad),
+               z);
 }
 
 Vec Vec::operator-(Vec other)
