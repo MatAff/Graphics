@@ -45,5 +45,7 @@ Vec Triangle::intersect(Vec eye, Vec dir)
 
 Vec Triangle::normal(Vec p)
 {
-    return(Vec(-2, -2, -2));
+    Vec n = (a - b).cross(a - c);
+    n = n / n.len();
+    return(n);
 }
