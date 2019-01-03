@@ -40,6 +40,7 @@ void Render::render(cv::Mat& frame, std::vector<std::shared_ptr<Surface*> >  sfV
                 Surface* sf = *sfptr;
                 Vec res = sf->intersect(eye, pDir);
                 if (res.size > 0) {
+                    res.print();
                     Vec norm = sf->normal(res);
                     Vec color = sf->getColor();
                     Vec shade = Shading::lamb(color, l, norm);

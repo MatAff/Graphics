@@ -10,7 +10,7 @@ class Sphere : public Surface
 {
 public:
     Sphere();
-    Sphere(Vec c, float r, Vec color); 
+    Sphere(Vec c, float r, Vec color);
     ~Sphere();
 
     Vec intersect(Vec eye, Vec dir);

@@ -1,16 +1,17 @@
 
 #include "Triangle.h"
 
-Triangle::Triangle(Vec a, Vec b, Vec c)
+Triangle::Triangle(Vec a, Vec b, Vec c, Vec color)
 {
     this->a = a;
     this->b = b;
     this->c = c;
+    this->color = color;
 }
 
 Triangle::~Triangle() {}
 
-Vec Triangle::intersect(Vec eye, Vec dir) 
+Vec Triangle::intersect(Vec eye, Vec dir)
 {
     float A = a.x - b.x;
     float B = a.y - b.y;
@@ -25,8 +26,24 @@ Vec Triangle::intersect(Vec eye, Vec dir)
     float K = a.y - eye.y;
     float L = a.z - eye.z;
     float M = A*(E*I - H*F) + B*(G*F - D*I) + C*(D*H - E*G);
-    float N = F*(A*K - J*B) + E*(J*C - A*L) + D*(B*L - K*C);
-    float t = N / M;
-    Vec P = eye + (dir*t);
-    return P;
+
+    float beta = J*(E*I - H*F) + K*(G*F - D*I) + L*(D*H - E*G);
+    beta = beta / M;
+
+    float gamma = I*(A*K - J*B) + H*(J*C - A*L) + G*(B*L - K*C);
+    gamma = gamma / M;
+
+    float T = F*(A*K - J*B) + E*(J*C - A*L) + D*(B*L - K*C);
+    T = T / M;
+
+    Vec p;
+    if (beta > 0 && beta < 1 - gamma && gamma > 0 && gamma < 1) {
+        p = eye + (dir*T);
+    }
+    return p;
+}
+
+Vec Triangle::normal(Vec p)
+{
+    return(Vec(-2, -2, -2));
 }
