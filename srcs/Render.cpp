@@ -16,7 +16,7 @@ Render::Render(cv::Size size) {
 Render::~Render() { }
 
 // Render method
-void Render::render(cv::Mat& frame, std::vector<Surface*> sfVec, Vec eye, Vec dir)
+void Render::render(cv::Mat& frame, std::vector<std::shared_ptr<Surface*> >  sfVec, Vec eye, Vec dir)
 {
 
     // Clear frame
@@ -36,7 +36,8 @@ void Render::render(cv::Mat& frame, std::vector<Surface*> sfVec, Vec eye, Vec di
             Vec pDir = dir * distance + u * ru + v * rv;
 
             // Calculate intersect
-            for(Surface* sf : sfVec) {
+            for(std::shared_ptr<Surface*> sfptr : sfVec) {
+                Surface* sf = *sfptr;
                 Vec res = sf->intersect(eye, pDir);
                 if (res.size > 0) {
                     Vec norm = sf->normal(res);

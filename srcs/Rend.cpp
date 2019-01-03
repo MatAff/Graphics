@@ -1,4 +1,5 @@
 #include <vector>
+#include <memory>
 #include "Render.h"
 #include "Vec.h"
 #include "Surface.h"
@@ -38,14 +39,13 @@ int main(int argc,char ** argv)
     Vec blueColor(255, 0, 0);
 
     // Create objects
-    std::vector<Surface*> sfVec;
-    Sphere s1(Vec(15, 0, 0), 2, redColor); // Sphere with radius 2
-    sfVec.push_back(&s1);
-    Sphere s2(Vec(10, 0, 0), 2, blueColor); // Sphere with radius 2
-    sfVec.push_back(&s2);
-    //for(size_t i = 0; i < 10; ++i) {
-        //Sphere s(Vec(10 + i * 5, 0, 0), 2); // Sphere with radius 2
-        //sfVec.push_back(&s);
+    std::vector<std::shared_ptr<Surface*> > sfVec;
+    // Loop to create objects
+    for(size_t i = 10; i > 0; --i) {        
+        std::shared_ptr<Surface*> sharedptr =
+            std::make_shared<Surface*>(new Sphere(Vec(10 + i * 5, 0, 0), 2, redColor));
+        sfVec.push_back(sharedptr);
+    }
 
     // Create render
     Render rend(size);

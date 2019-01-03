@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <vector>
+#include <memory>
 #include "Vec.h"
 #include "Surface.h"
 #include "Shading.h"
@@ -14,7 +15,7 @@ public:
    Render(cv::Size size);
    ~Render();
 
-   void render(cv::Mat& frame, std::vector<Surface*> sfVec, Vec eye, Vec dir);
+   void render(cv::Mat& frame, std::vector<std::shared_ptr<Surface*>> sfVec, Vec eye, Vec dir);
 
 private:
 
