@@ -41,12 +41,13 @@ int main(int argc,char ** argv)
 
     // Create objects
     std::vector<std::shared_ptr<Surface*> > sfVec;
+
     // Loop to create objects
-    /*for(size_t i = 10; i > 0; --i) {
+    for(size_t i = 0; i < 10; ++i) {
         std::shared_ptr<Surface*> sharedptr =
             std::make_shared<Surface*>(new Sphere(Vec(10 + i * 5, 0, 0), 2, redColor));
         sfVec.push_back(sharedptr);
-    }*/
+    }
 
     // Add Triangle
     std::shared_ptr<Surface*> sharedptr =

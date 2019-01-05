@@ -36,15 +36,20 @@ void Render::render(cv::Mat& frame, std::vector<std::shared_ptr<Surface*> >  sfV
             Vec pDir = dir * distance + u * ru + v * rv;
 
             // Calculate intersect
+            float* minDist = nullptr;
+            float dist;
             for(std::shared_ptr<Surface*> sfptr : sfVec) {
                 Surface* sf = *sfptr;
                 Vec res = sf->intersect(eye, pDir);
                 if (res.size > 0) {
-                    res.print();
-                    Vec norm = sf->normal(res);
-                    Vec color = sf->getColor();
-                    Vec shade = Shading::lamb(color, l, norm);
-                    frame.at<cv::Vec3b>(r, c) = cv::Vec3b(shade.x, shade.y, shade.z);
+                    dist = (res - eye).len();
+                    if (!minDist || dist < *minDist) {
+                        minDist = &dist;
+                        Vec norm = sf->normal(res);
+                        Vec color = sf->getColor();
+                        Vec shade = Shading::lamb(color, l, norm);
+                        frame.at<cv::Vec3b>(r, c) = cv::Vec3b(shade.x, shade.y, shade.z);
+                    }
                 }
             }
         }
