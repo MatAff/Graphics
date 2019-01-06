@@ -4,7 +4,7 @@
 Render::Render(cv::Size size) {
 
     // Set Lighting
-    l = Vec(-1,-1,-1);
+    l = Vec(-1, -1, 1);
     l = l / l.len();
 
     // Set frame size
@@ -32,7 +32,7 @@ void Render::render(cv::Mat& frame, std::vector<std::shared_ptr<Surface*> >  sfV
     for(int c = 0; c < size.width; ++c) {
         float ru = left + (right - left) * ((float)c + 0.5) / (float)size.width;
         for(int r = 0; r < size.height; ++r) {
-            float rv = bottom + (top - bottom) * ((float)r + 0.5) / (float)size.height;
+            float rv = top - (top - bottom) * ((float)r + 0.5) / (float)size.height;
             Vec pDir = dir * distance + u * ru + v * rv;
 
             // Calculate intersect

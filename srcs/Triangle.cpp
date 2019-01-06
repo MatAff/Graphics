@@ -33,11 +33,11 @@ Vec Triangle::intersect(Vec eye, Vec dir)
     float gamma = I*(A*K - J*B) + H*(J*C - A*L) + G*(B*L - K*C);
     gamma = gamma / M;
 
-    float T = F*(A*K - J*B) + E*(J*C - A*L) + D*(B*L - K*C);
+    float T = -1 * (F*(A*K - J*B) + E*(J*C - A*L) + D*(B*L - K*C));
     T = T / M;
 
     Vec p;
-    if (beta > 0 && beta < 1 - gamma && gamma > 0 && gamma < 1) {
+    if (beta > 0 && beta < 1 - gamma && gamma > 0 && gamma < 1 && T > 0) {
         p = eye + (dir*T);
     }
     return p;
