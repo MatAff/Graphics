@@ -6,6 +6,7 @@
 #include "Sphere.h"
 #include "Triangle.h"
 #include "FPS.h"
+#include "EnvCreator.h"
 
 //#include "QuadEq.h"
 //#include "Triangle.h"
@@ -56,6 +57,9 @@ int main(int argc,char ** argv)
                                                 Vec(10, 5, 5), redColor));
     sfVec.push_back(sharedptr);
 
+    // Add Surface
+    EnvCreator::createCircle(sfVec, eye, 10, 2, 20, 90, 270, Vec(255, 0, 255));
+
     // Create render
     Render rend(size);
 
@@ -78,8 +82,8 @@ int main(int argc,char ** argv)
         if (key == ESC_KEY) { run = false; }
         if (key == UP_KEY) { eye = eye + dir * 0.15; }
         if (key == DOWN_KEY) { eye = eye - dir * 0.5; }
-        if (key == RIGHT_KEY) { dir = dir.rotateZ(-0.05); }
-        if (key == LEFT_KEY) { dir = dir.rotateZ(0.05); }
+        if (key == RIGHT_KEY) { dir = dir.rotateZ(-0.15); }
+        if (key == LEFT_KEY) { dir = dir.rotateZ(0.15); }
 
         // fps
         if (fps.update()) { std::cout << fps.getText() << std::endl; }
