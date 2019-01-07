@@ -26,8 +26,8 @@ int main(int argc,char ** argv)
 {
 
     // View
-    Vec eye(0, 0, 150); // View position
-    Vec dir(0, 1, 0); // Direction
+    Vec eye(12500, 22500, 1500); // View position
+    Vec dir(1, 0, 0); // Direction
     dir = dir / dir.len();
     cv::Size fov(120, 80);
 
@@ -40,8 +40,11 @@ int main(int argc,char ** argv)
     Vec redColor(0, 0, 255);
     Vec blueColor(255, 0, 0);
 
-    // Create objects
+    // Create objects vector
     std::vector<std::shared_ptr<Surface*> > sfVec;
+
+    // Course
+    EnvCreator::courseAVC(sfVec);
 
     // Loop to create objects
     /*for(size_t i = 0; i < 1; ++i) {
@@ -51,11 +54,11 @@ int main(int argc,char ** argv)
     }*/
 
     // Add Triangle
-    std::shared_ptr<Surface*> sharedptr =
+    /*std::shared_ptr<Surface*> sharedptr =
         std::make_shared<Surface*>(new Triangle(Vec(0, 500, 500),
                                                 Vec(100, 500, 300),
                                                 Vec(100, 500, 500), redColor));
-    sfVec.push_back(sharedptr);
+    sfVec.push_back(sharedptr);*/
 
     // Add Surface
     /*EnvCreator::createCircle(sfVec, eye, 10, 2, 20, 90, 270, Vec(255, 0, 255));*/
@@ -80,8 +83,8 @@ int main(int argc,char ** argv)
         // User input
         int key = cv::waitKey(5);
         if (key == ESC_KEY) { run = false; }
-        if (key == UP_KEY) { eye = eye + dir * 50; }
-        if (key == DOWN_KEY) { eye = eye - dir * 50; }
+        if (key == UP_KEY) { eye = eye + dir * 1000; }
+        if (key == DOWN_KEY) { eye = eye - dir * 1000; }
         if (key == RIGHT_KEY) { dir = dir.rotateZ(-0.15); }
         if (key == LEFT_KEY) { dir = dir.rotateZ(0.15); }
 

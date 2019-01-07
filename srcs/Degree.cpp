@@ -18,3 +18,9 @@ double Degree::radToDeg(double rad) {
     return rad / M_PI * 180;
 }
 
+Vec Degree::pointDirDist(Vec p, float deg, float dist)
+{
+    return Vec(p.x + sin(degToRad(deg)) * dist,
+               p.y - cos(degToRad(deg)) * dist,
+               p.z);
+}
