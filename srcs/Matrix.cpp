@@ -39,7 +39,7 @@ const T& Matrix<T>::operator()(const size_t& r, const size_t& c) const
 }
 
 template <typename T>
-Matrix<T> Matrix<T>::operator+(Matrix other)
+Matrix<T> Matrix<T>::operator+(Matrix<T>& other)
 {
     Matrix res(rows, cols, 0.0);
 
@@ -47,7 +47,25 @@ Matrix<T> Matrix<T>::operator+(Matrix other)
     {
         for(size_t j = 0; j < cols; ++j)
         {
-            res(i, j) = this->values[i][j] + other(i, j);
+            res(i, j) = values[i][j] + other(i, j);
+        }
+    }
+    return res;
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::operator*(Matrix<T>& other)
+{
+    Matrix res(rows, other.cols, 0.0);
+
+    for(size_t i = 0; i < res.rows; ++i)
+    {
+        for(size_t j = 0; j < res.cols; ++j)
+        {
+            for(size_t k = 0; k < cols; ++k)
+            {
+                res(i, j) += values[i][k] * other(k, j);
+            }
         }
     }
     return res;

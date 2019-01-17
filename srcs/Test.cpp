@@ -1,7 +1,7 @@
 
 #include "Vec.h"
 #include "Matrix.h"
-#include "Matrix.cpp" # Required due to template
+#include "Matrix.cpp" 
 #include "QuadEq.h"
 #include "Triangle.h"
 #include "Sphere.h"
@@ -49,6 +49,11 @@ int main(int argc,char ** argv)
     Matrix<float> m(2,2,1.0);
     m = m + m;
     m.print();
+
+    Matrix<int> l(1, 3, 1);
+    Matrix<int> r(3, 1, 2);
+    Matrix<int> mm = l*r;
+    mm.print();
 
 
 }

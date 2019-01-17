@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+// Derived from: https://www.quantstart.com/articles/Matrix-Classes-in-C-The-Header-File
 
 template <typename T>
 class Matrix
@@ -17,7 +18,8 @@ public:
    T& operator()(const size_t& r, const size_t& c);
    const T& operator()(const size_t& r, const size_t& c) const;
 
-    Matrix<T> operator+(Matrix other);
+    Matrix<T> operator+(Matrix<T>& other);
+    Matrix<T> operator*(Matrix<T>& other);
 
     void print();
 
