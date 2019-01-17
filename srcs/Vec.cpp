@@ -21,6 +21,16 @@ Vec::Vec(float x, float y, float z)
 
 Vec::~Vec() { }
 
+float& Vec::operator()(const size_t& e)
+{
+    return values[e];
+}
+
+const float& Vec::operator()(const size_t& e) const
+{
+    return values[e];
+}
+
 float Vec::dot(const Vec& other)
 {
    if (values.size()!=other.values.size()) { std::cerr << "Vector size does not match"; }

@@ -14,6 +14,9 @@ public:
 
     ~Vec();
 
+    float& operator()(const size_t& e);
+    const float& operator()(const size_t& e) const;
+
     float dot(const Vec& other);
     Vec cross(const Vec& other);
     float len();
@@ -23,6 +26,7 @@ public:
     Vec operator*(float s);
     Vec operator/(float s);
 
+    size_t size() const { return values.size(); }
     float x() const { return values[0]; }
     float y() const { return values[1]; }
     float z() const { return values[2]; }
