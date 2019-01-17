@@ -65,6 +65,20 @@ Vec Vec::operator/(float s)
     return(Vec(x / s, y / s, z / s));
 }
 
+std::vector<float> Vec::getVector(bool isPosition)
+{
+    std::vector<float> v;
+    v.push_back(x);
+    v.push_back(y);
+    v.push_back(z);
+    if (isPosition)  {
+      v.push_back(1.0);
+    } else {
+      v.push_back(0.0);
+    }
+    return v;
+}
+
 void Vec::print()
 {
    std::cout << x << " " << y;

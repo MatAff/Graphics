@@ -15,6 +15,10 @@ public:
     Vec intersect(Vec eye, Vec dir);
     Vec normal(Vec p);
 
+    std::vector<float> getA() { return a.getVector(true); }
+    std::vector<float> getB() { return b.getVector(true); }
+    std::vector<float> getC() { return c.getVector(true); }
+
 private:
     Vec a;
     Vec b;

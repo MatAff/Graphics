@@ -16,6 +16,7 @@ public:
    ~Render();
 
    void render(cv::Mat& frame, std::vector<std::shared_ptr<Surface*>> sfVec, Vec eye, Vec dir);
+   void renderObjOrder(cv::Mat& frame, std::vector<std::shared_ptr<Surface*>> sfVec, Vec eye, Vec dir);
 
 private:
 

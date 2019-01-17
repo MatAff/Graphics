@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "Vec.h"
 
 // Derived from: https://www.quantstart.com/articles/Matrix-Classes-in-C-The-Header-File
 
@@ -21,7 +22,13 @@ public:
     Matrix<T> operator+(Matrix<T>& other);
     Matrix<T> operator*(Matrix<T>& other);
 
+    std::vector<float> operator*(std::vector<float> v);
+
     void print();
+
+    static Matrix<T> rotateZ(const float& rad);
+    static Matrix<T> identity(const size_t& size);
+    static Matrix<T> shift(const Vec& pos);
 
     size_t rows;
     size_t cols;

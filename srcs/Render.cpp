@@ -1,4 +1,7 @@
 #include "Render.h"
+#include "Matrix.h"
+#include "Matrix.cpp"
+#include "Triangle.h"
 
 // Constructor
 Render::Render(cv::Size size) {
@@ -14,6 +17,45 @@ Render::Render(cv::Size size) {
 
 // Destructor
 Render::~Render() { }
+
+void Render::renderObjOrder(cv::Mat& frame, std::vector<std::shared_ptr<Surface*>> sfVec, Vec eye, Vec dir)
+{
+    // Move points such that they appear as if the camera equals the origin
+
+    // Clear frame
+    frame = cv::Scalar(0, 0, 0);
+
+    // Rotation matrix (x, y only)
+    float rad = atan(dir.x / dir.y);
+    Matrix<float> R = Matrix<float>::rotateZ(-rad);
+    R.print();
+
+    // Shift matrix
+    Matrix<float> S = Matrix<float>::shift(eye * -1);
+    S.print();
+
+    // Combined matrix
+    Matrix<float> RS = S * R;
+    RS.print();
+
+    // Loop through objs
+    for(std::shared_ptr<Surface*> sfptr : sfVec) {
+
+       // Get surface
+        Surface* sf = *sfptr;
+
+        // Reposition points
+        //std::vector<float> at = RS * ((Triangle) sf->getA());
+
+
+        // Draw triangle
+
+    }
+    // End loop
+
+
+
+}
 
 // Render method
 void Render::render(cv::Mat& frame, std::vector<std::shared_ptr<Surface*> >  sfVec, Vec eye, Vec dir)

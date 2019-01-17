@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
-
+#include <vector>
 
 class Vec
 {
@@ -22,6 +22,8 @@ public:
     Vec operator+(Vec other);
     Vec operator*(float s);
     Vec operator/(float s);
+
+    std::vector<float> getVector(bool isPosition);
 
     //std::string toString();
     void print();

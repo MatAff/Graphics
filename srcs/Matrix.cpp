@@ -83,3 +83,58 @@ void Matrix<T>::print()
         std::cout << std::endl;
     }
 }
+
+template <typename T>
+Matrix<T> Matrix<T>::rotateZ(const float& rad)
+{
+    Matrix rot(4, 4, 0.0);
+    rot(0, 0) = cos(rad);
+    rot(0, 1) = -sin(rad);
+    rot(1, 0) = sin(rad);
+    rot(1, 1) = cos(rad);
+    rot(2, 2) = 1.0;
+    rot(3, 3) = 1.0;
+    return rot;
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::identity(const size_t& size)
+{
+    Matrix id(size, size, 0.0);
+    for(size_t i = 0; i < size; ++i)
+    {
+       id(i,i) = 1.0;
+    }
+    return id;
+}
+
+template <typename T>
+Matrix<T> Matrix<T>::shift(const Vec& pos)
+{
+    Matrix shift = Matrix<float>::identity(4);
+    shift(0,3) = pos.x;
+    shift(1,3) = pos.y;
+    shift(2,3) = pos.z;
+    return shift;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Comment to demand white space
