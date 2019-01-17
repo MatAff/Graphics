@@ -1,5 +1,7 @@
 
 #include "Vec.h"
+#include "Matrix.h"
+#include "Matrix.cpp" # Required due to template
 #include "QuadEq.h"
 #include "Triangle.h"
 #include "Sphere.h"
@@ -8,7 +10,7 @@
 // Main program
 int main(int argc,char ** argv)
 {
-    // Cross product
+    /*// Cross product
     Vec a(10, 0, 0);
     Vec b(0, 0, 10);
     Vec w = a / a.len();
@@ -41,5 +43,12 @@ int main(int argc,char ** argv)
     Vec triangleRes = t2.intersect(eye, dir);
     triangleRes.print();
     std::cout << std::endl; // White line
+    */
+
+
+    Matrix<float> m(2,2,1.0);
+    m = m + m;
+    m.print();
+
 
 }
