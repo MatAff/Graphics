@@ -26,8 +26,8 @@ int main(int argc,char ** argv)
 {
 
     // View
-    //Vec eye(12500, 22500, 1500); // View position
-    Vec eye(0,0,0);
+    Vec eye(12500, 22500, 1500); // View position
+    //Vec eye(0,0,0);
     Vec dir(1, 1, 0); // Direction
     dir = dir / dir.len();
     cv::Size fov(120, 80);
@@ -45,7 +45,7 @@ int main(int argc,char ** argv)
     std::vector<std::shared_ptr<Surface*> > sfVec;
 
     // Course
-    //EnvCreator::courseAVC(sfVec);
+    EnvCreator::courseAVC(sfVec);
 
     // Loop to create objects
     /*for(size_t i = 0; i < 1; ++i) {
@@ -55,11 +55,11 @@ int main(int argc,char ** argv)
     }*/
 
     // Add Triangle
-    std::shared_ptr<Surface*> sharedptr =
+    /*std::shared_ptr<Surface*> sharedptr =
         std::make_shared<Surface*>(new Triangle(Vec(0, 500, 500),
                                                 Vec(100, 500, 300),
                                                 Vec(100, 500, 500), redColor));
-    sfVec.push_back(sharedptr);
+    sfVec.push_back(sharedptr);*/
 
     // Add Surface
     /*EnvCreator::createCircle(sfVec, eye, 10, 2, 20, 90, 270, Vec(255, 0, 255));*/
@@ -76,8 +76,8 @@ int main(int argc,char ** argv)
     {
 
         // Render
-        //rend.render(frame, sfVec, eye, dir);
-        rend.renderObjOrder(frame, sfVec, eye, dir);
+        rend.render(frame, sfVec, eye, dir);
+        //rend.renderObjOrder(frame, sfVec, eye, dir);
 
         // Show image
         imshow("Live", frame);

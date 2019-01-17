@@ -5,32 +5,39 @@ Vec::Vec() {}
 
 Vec::Vec(float x, float y)
 {
-    this->x = x;
-    this->y = y;
-    size = 2;
+    values.resize(2);
+    values[0] = x;
+    values[1] = y;
 }
 
 Vec::Vec(float x, float y, float z)
 {
-    this->x = x;
-    this->y = y;
-    this->z = z;
-    size = 3;
+    values.resize(3);
+    values[0] = x;
+    values[1] = y;
+    values[2] = z;
+
 }
 
 Vec::~Vec() { }
 
-float Vec::dot(Vec other)
+float Vec::dot(const Vec& other)
 {
-   if (size!=other.size) { std::cerr << "Vector size does not match"; }
-   return x * other.x + y * other.y + z * other.z;
+   if (values.size()!=other.values.size()) { std::cerr << "Vector size does not match"; }
+   float d;
+   for (size_t i = 0; i < values.size(); ++i)
+   {
+       d += values[i] * other.values[i];
+   }
+   return d;
 }
 
-Vec Vec::cross(Vec other)
+Vec Vec::cross(const Vec& other)
 {
-    return Vec(y * other.z - z * other.y,
-               z * other.x - x * other.z,
-               x * other.y - y * other.x);
+    if (values.size()!=3 || other.values.size()!=3) { std::cerr << "cross only defined for size==3"; }
+    return Vec(values[1] * other.values[2]- values[2] * other.values[1],
+               values[2] * other.values[0]- values[0] * other.values[2],
+               values[0] * other.values[1]- values[1] * other.values[0]);
 }
 
 float Vec::len()
@@ -40,48 +47,68 @@ float Vec::len()
 
 Vec Vec::rotateZ(float rad)
 {
-    return Vec(x * cos(rad) - y * sin(rad),
-               x * sin(rad) + y * cos(rad),
-               z);
+    if (values.size()!=3) { std::cerr << "rotateZ only defined for size==3"; }
+    return Vec(values[0] * cos(rad) - values[1] * sin(rad),
+               values[0] * sin(rad) + values[1] * cos(rad),
+               values[2]);
 }
 
-Vec Vec::operator-(Vec other)
+Vec Vec::operator-(const Vec& other)
 {
-    return(Vec(x - other.x, y - other.y, z - other.z));
+    if (values.size()!=other.values.size()) { std::cerr << "Vector size does not match"; }
+    Vec r;
+    r.values.resize(values.size());
+    for (size_t i = 0; i < values.size(); ++i)
+    {
+        r.values[i] = values[i] - other.values[i];
+    }
+    return r;
 }
 
-Vec Vec::operator+(Vec other)
+Vec Vec::operator+(const Vec& other)
 {
-    return(Vec(x + other.x, y + other.y, z + other.z));
+  if (values.size()!=other.values.size()) { std::cerr << "Vector size does not match"; }
+  Vec r;
+  r.values.resize(values.size());
+  for (size_t i = 0; i < values.size(); ++i)
+  {
+      r.values[i] = values[i] + other.values[i];
+  }
+  return r;
 }
 
 Vec Vec::operator*(float s)
 {
-    return(Vec(x * s, y * s, z * s));
+  Vec r;
+  r.values.resize(values.size());
+  for (size_t i = 0; i < values.size(); ++i)
+  {
+      r.values[i] = values[i] * s;
+  }
+  return r;
 }
 
 Vec Vec::operator/(float s)
 {
-    return(Vec(x / s, y / s, z / s));
+  Vec r;
+  r.values.resize(values.size());
+  for (size_t i = 0; i < values.size(); ++i)
+  {
+      r.values[i] = values[i] / s;
+  }
+  return r;
 }
 
-std::vector<float> Vec::getVector(bool isPosition)
+std::vector<float> Vec::getVector()
 {
-    std::vector<float> v;
-    v.push_back(x);
-    v.push_back(y);
-    v.push_back(z);
-    if (isPosition)  {
-      v.push_back(1.0);
-    } else {
-      v.push_back(0.0);
-    }
-    return v;
+    return values;
 }
 
 void Vec::print()
 {
-   std::cout << x << " " << y;
-   if (size == 3) { std::cout << " " << z; } // In case 3d vector
+   for(size_t i = 0; i < values.size(); ++i)
+   {
+       std::cout << values[i] << " ";
+   }
    std::cout << std::endl;
 }

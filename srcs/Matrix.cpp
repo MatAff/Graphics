@@ -112,9 +112,9 @@ template <typename T>
 Matrix<T> Matrix<T>::shift(const Vec& pos)
 {
     Matrix shift = Matrix<float>::identity(4);
-    shift(0,3) = pos.x;
-    shift(1,3) = pos.y;
-    shift(2,3) = pos.z;
+    shift(0,3) = pos.x();
+    shift(1,3) = pos.y();
+    shift(2,3) = pos.z();
     return shift;
 }
 

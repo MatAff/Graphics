@@ -14,23 +14,23 @@ public:
 
     ~Vec();
 
-    float dot(Vec other);
-    Vec cross(Vec other);
+    float dot(const Vec& other);
+    Vec cross(const Vec& other);
     float len();
     Vec rotateZ(float rad);
-    Vec operator-(Vec other);
-    Vec operator+(Vec other);
+    Vec operator-(const Vec& other);
+    Vec operator+(const Vec& other);
     Vec operator*(float s);
     Vec operator/(float s);
 
-    std::vector<float> getVector(bool isPosition);
+    float x() const { return values[0]; }
+    float y() const { return values[1]; }
+    float z() const { return values[2]; }
+    std::vector<float> getVector();
 
     //std::string toString();
     void print();
 
 //private:
-    short size = 0;
-    float x;
-    float y;
-    float z;
+    std::vector<float> values;
 };

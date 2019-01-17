@@ -26,7 +26,7 @@ void Render::renderObjOrder(cv::Mat& frame, std::vector<std::shared_ptr<Surface*
     frame = cv::Scalar(0, 0, 0);
 
     // Rotation matrix (x, y only)
-    float rad = atan(dir.x / dir.y);
+    float rad = atan(dir.values[0] / dir.values[1]);
     Matrix<float> R = Matrix<float>::rotateZ(-rad);
     R.print();
 
@@ -84,7 +84,7 @@ void Render::render(cv::Mat& frame, std::vector<std::shared_ptr<Surface*> >  sfV
             for(std::shared_ptr<Surface*> sfptr : sfVec) {
                 Surface* sf = *sfptr;
                 Vec res = sf->intersect(eye, pDir);
-                if (res.size > 0) {
+                if (res.values.size() > 0) {
                     dist = (res - eye).len();
                     //if (!minDist || dist < *minDist) {
                     if (dist < minDist) {
@@ -92,7 +92,7 @@ void Render::render(cv::Mat& frame, std::vector<std::shared_ptr<Surface*> >  sfV
                         Vec norm = sf->normal(res);
                         Vec color = sf->getColor();
                         Vec shade = Shading::lamb(color, l, norm);
-                        frame.at<cv::Vec3b>(r, c) = cv::Vec3b(shade.x, shade.y, shade.z);
+                        frame.at<cv::Vec3b>(r, c) = cv::Vec3b(shade.values[0], shade.values[1], shade.values[2]);
                     }
                 }
             }

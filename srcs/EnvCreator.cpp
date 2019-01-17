@@ -13,9 +13,9 @@ void EnvCreator::createWall(std::vector<std::shared_ptr<Surface*> >& sfVec,
                         Vec color)
 {
     Vec A = s;
-    Vec B(s.x, s.y, s.z + height);
+    Vec B(s.x(), s.y(), s.z() + height);
     Vec C = e;
-    Vec D(e.x, e.y, e.z + height);
+    Vec D(e.x(), e.y(), e.z() + height);
     std::shared_ptr<Surface*> sharedptr =
         std::make_shared<Surface*>(new Triangle(A, B, C, color));
     sfVec.push_back(sharedptr);
@@ -44,10 +44,10 @@ void EnvCreator::createCircle(std::vector<std::shared_ptr<Surface*> >& sfVec,
         float rad2 = Degree::degToRad(dirDeg2);
         float dx2 = sin(rad2) * r;
         float dy2 = -cos(rad2) * r;
-        Vec A(c.x + dx, c.y + dy, c.z);
-        Vec B(c.x + dx, c.y + dy, c.z + height);
-        Vec C(c.x + dx2, c.y + dy2, c.z);
-        Vec D(c.x + dx2, c.y + dy2, c.z + height);
+        Vec A(c.x() + dx, c.y() + dy, c.z());
+        Vec B(c.x() + dx, c.y() + dy, c.z() + height);
+        Vec C(c.x() + dx2, c.y() + dy2, c.z());
+        Vec D(c.x() + dx2, c.y() + dy2, c.z() + height);
         std::shared_ptr<Surface*> sharedptr =
             std::make_shared<Surface*>(new Triangle(A, B, C, color));
         sfVec.push_back(sharedptr);
@@ -85,28 +85,28 @@ void EnvCreator::courseAVC(std::vector<std::shared_ptr<Surface*> >& sfVec)
   // Left V
   s = Degree::pointDirDist(Vec(cx1, cy, 0), 45, rInner);
   e = Degree::pointDirDist(Vec(cx1, cy, 0), 135, rInner);
-  m = Vec(s.x + (e.y - s.y) / 2, s.y + (e.y - s.y) / 2, 0);
+  m = Vec(s.x() + (e.y() - s.y()) / 2, s.y() + (e.y() - s.y()) / 2, 0);
   EnvCreator::createWall(sfVec, s, m, couresHeight, Vec(255, 0, 255));
   EnvCreator::createWall(sfVec, m, e, couresHeight, Vec(255, 0, 255));
 
   // Right V
   s = Degree::pointDirDist(Vec(cx2, cy, 0), 225, rInner);
   e = Degree::pointDirDist(Vec(cx2, cy, 0), 315, rInner);
-  m = Vec(s.x + (e.y - s.y) / 2, s.y + (e.y - s.y) / 2, 0);
+  m = Vec(s.x() + (e.y() - s.y()) / 2, s.y() + (e.y() - s.y()) / 2, 0);
   EnvCreator::createWall(sfVec, s, m, couresHeight, Vec(255, 0, 255));
   EnvCreator::createWall(sfVec, m, e, couresHeight, Vec(255, 0, 255));
 
   // Top V
   s = Degree::pointDirDist(Vec(cx2, cy, 0), 225, rOuter);
   e = Degree::pointDirDist(Vec(cx1, cy, 0), 135, rOuter);
-  m = Vec(s.x + (e.x - s.x) / 2, s.y + (e.x - s.x) / 2, 0);
+  m = Vec(s.x() + (e.x() - s.x()) / 2, s.y() + (e.x() - s.x()) / 2, 0);
   EnvCreator::createWall(sfVec, s, m, couresHeight, Vec(255, 0, 255));
   EnvCreator::createWall(sfVec, m, e, couresHeight, Vec(255, 0, 255));
 
   // Bottom V
   s = Degree::pointDirDist(Vec(cx1, cy, 0), 45, rOuter);
   e = Degree::pointDirDist(Vec(cx2, cy, 0), 315, rOuter);
-  m = Vec(s.x + (e.x - s.x) / 2, s.y + (e.x - s.x) / 2, 0);
+  m = Vec(s.x() + (e.x() - s.x()) / 2, s.y() + (e.x() - s.x()) / 2, 0);
   EnvCreator::createWall(sfVec, s, m, couresHeight, Vec(255, 0, 255));
   EnvCreator::createWall(sfVec, m, e, couresHeight, Vec(255, 0, 255));
 

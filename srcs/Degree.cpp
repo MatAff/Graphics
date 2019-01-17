@@ -20,7 +20,7 @@ double Degree::radToDeg(double rad) {
 
 Vec Degree::pointDirDist(Vec p, float deg, float dist)
 {
-    return Vec(p.x + sin(degToRad(deg)) * dist,
-               p.y - cos(degToRad(deg)) * dist,
-               p.z);
+    return Vec(p.x() + sin(degToRad(deg)) * dist,
+               p.y() - cos(degToRad(deg)) * dist,
+               p.z());
 }
