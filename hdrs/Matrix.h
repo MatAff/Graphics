@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "Vec.h"
+#include "VecD.h"
 
 // Derived from: https://www.quantstart.com/articles/Matrix-Classes-in-C-The-Header-File
 
@@ -28,7 +28,7 @@ public:
 
     static Matrix<T> rotateZ(const float& rad);
     static Matrix<T> identity(const size_t& size);
-    static Matrix<T> shift(const Vec& pos);
+    static Matrix<T> shift(const VecD& pos);
 
     size_t rows;
     size_t cols;

@@ -3,20 +3,20 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
-#include "Vec.h"
+#include "VecD.h"
 #include "Surface.h"
 
 class Sphere : public Surface
 {
 public:
     Sphere();
-    Sphere(Vec c, float r, Vec color);
+    Sphere(VecD c, float r, VecD color);
     ~Sphere();
 
-    Vec intersect(Vec eye, Vec dir);
-    Vec normal(Vec p);
+    VecD intersect(VecD eye, VecD dir);
+    VecD normal(VecD p);
 
 private:
-    Vec c;
+    VecD c;
     float r;
 };

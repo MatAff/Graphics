@@ -2,7 +2,7 @@
 #include "Sphere.h"
 #include "QuadEq.h"
 
-Sphere::Sphere(Vec c, float r, Vec color)
+Sphere::Sphere(VecD c, float r, VecD color)
 {
     this->c = c;
     this->r = r;
@@ -11,14 +11,14 @@ Sphere::Sphere(Vec c, float r, Vec color)
 
 Sphere::~Sphere() {}
 
-Vec Sphere::intersect(Vec eye, Vec dir)
+VecD Sphere::intersect(VecD eye, VecD dir)
 {
-    Vec shift = eye - c;
+    VecD shift = eye - c;
     float A = dir.dot(dir);
     float B = 2 * dir.dot(shift);
     float C = shift.dot(shift) - r * r;
     std::vector<float> res = QuadEq::solve(A, B, C);
-    Vec v;
+    VecD v;
     if (res[0] > 0) {
         float t = res[1];
         if (t > 0) {
@@ -28,7 +28,7 @@ Vec Sphere::intersect(Vec eye, Vec dir)
     return v;
 }
 
-Vec Sphere::normal(Vec p)
+VecD Sphere::normal(VecD p)
 {
    return (p - c)/(p -c).len();
 }

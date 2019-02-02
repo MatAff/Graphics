@@ -1,16 +1,16 @@
-#include "Vec.h"
+#include "VecD.h"
 #include <math.h>
 
-Vec::Vec() {}
+VecD::VecD() {}
 
-Vec::Vec(float x, float y)
+VecD::VecD(float x, float y)
 {
     values.resize(2);
     values[0] = x;
     values[1] = y;
 }
 
-Vec::Vec(float x, float y, float z)
+VecD::VecD(float x, float y, float z)
 {
     values.resize(3);
     values[0] = x;
@@ -19,21 +19,21 @@ Vec::Vec(float x, float y, float z)
 
 }
 
-Vec::~Vec() { }
+VecD::~VecD() { }
 
-float& Vec::operator()(const size_t& e)
+float& VecD::operator()(const size_t& e)
 {
     return values[e];
 }
 
-const float& Vec::operator()(const size_t& e) const
+const float& VecD::operator()(const size_t& e) const
 {
     return values[e];
 }
 
-float Vec::dot(const Vec& other)
+float VecD::dot(const VecD& other)
 {
-   if (values.size()!=other.values.size()) { std::cerr << "Vector size does not match"; }
+   if (values.size()!=other.values.size()) { std::cerr << "VecDtor size does not match"; }
    float d;
    for (size_t i = 0; i < values.size(); ++i)
    {
@@ -42,31 +42,31 @@ float Vec::dot(const Vec& other)
    return d;
 }
 
-Vec Vec::cross(const Vec& other)
+VecD VecD::cross(const VecD& other)
 {
     if (values.size()!=3 || other.values.size()!=3) { std::cerr << "cross only defined for size==3"; }
-    return Vec(values[1] * other.values[2]- values[2] * other.values[1],
+    return VecD(values[1] * other.values[2]- values[2] * other.values[1],
                values[2] * other.values[0]- values[0] * other.values[2],
                values[0] * other.values[1]- values[1] * other.values[0]);
 }
 
-float Vec::len()
+float VecD::len()
 {
     return sqrt(this->dot(*this));
 }
 
-Vec Vec::rotateZ(float rad)
+VecD VecD::rotateZ(float rad)
 {
     if (values.size()!=3) { std::cerr << "rotateZ only defined for size==3"; }
-    return Vec(values[0] * cos(rad) - values[1] * sin(rad),
+    return VecD(values[0] * cos(rad) - values[1] * sin(rad),
                values[0] * sin(rad) + values[1] * cos(rad),
                values[2]);
 }
 
-Vec Vec::operator-(const Vec& other)
+VecD VecD::operator-(const VecD& other)
 {
-    if (values.size()!=other.values.size()) { std::cerr << "Vector size does not match"; }
-    Vec r;
+    if (values.size()!=other.values.size()) { std::cerr << "VecDtor size does not match"; }
+    VecD r;
     r.values.resize(values.size());
     for (size_t i = 0; i < values.size(); ++i)
     {
@@ -75,10 +75,10 @@ Vec Vec::operator-(const Vec& other)
     return r;
 }
 
-Vec Vec::operator+(const Vec& other)
+VecD VecD::operator+(const VecD& other)
 {
-  if (values.size()!=other.values.size()) { std::cerr << "Vector size does not match"; }
-  Vec r;
+  if (values.size()!=other.values.size()) { std::cerr << "VecDtor size does not match"; }
+  VecD r;
   r.values.resize(values.size());
   for (size_t i = 0; i < values.size(); ++i)
   {
@@ -87,9 +87,9 @@ Vec Vec::operator+(const Vec& other)
   return r;
 }
 
-Vec Vec::operator*(float s)
+VecD VecD::operator*(float s)
 {
-  Vec r;
+  VecD r;
   r.values.resize(values.size());
   for (size_t i = 0; i < values.size(); ++i)
   {
@@ -98,9 +98,9 @@ Vec Vec::operator*(float s)
   return r;
 }
 
-Vec Vec::operator/(float s)
+VecD VecD::operator/(float s)
 {
-  Vec r;
+  VecD r;
   r.values.resize(values.size());
   for (size_t i = 0; i < values.size(); ++i)
   {
@@ -109,12 +109,12 @@ Vec Vec::operator/(float s)
   return r;
 }
 
-std::vector<float> Vec::getVector()
+std::vector<float> VecD::getVector()
 {
     return values;
 }
 
-void Vec::print()
+void VecD::print()
 {
    for(size_t i = 0; i < values.size(); ++i)
    {

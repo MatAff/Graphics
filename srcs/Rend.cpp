@@ -1,7 +1,7 @@
 #include <vector>
 #include <memory>
 #include "Render.h"
-#include "Vec.h"
+#include "VecD.h"
 #include "Surface.h"
 #include "Sphere.h"
 #include "Triangle.h"
@@ -26,9 +26,9 @@ int main(int argc,char ** argv)
 {
 
     // View
-    Vec eye(12500, 22500, 1500); // View position
-    //Vec eye(0,0,0);
-    Vec dir(1, 1, 0); // Direction
+    VecD eye(12500, 22500, 1500); // View position
+    //VecD eye(0,0,0);
+    VecD dir(1, 1, 0); // Direction
     dir = dir / dir.len();
     cv::Size fov(120, 80);
 
@@ -38,8 +38,8 @@ int main(int argc,char ** argv)
     cv::Mat frame(size, CV_8UC3);
 
     // Colors
-    Vec redColor(0, 0, 255);
-    Vec blueColor(255, 0, 0);
+    VecD redColor(0, 0, 255);
+    VecD blueColor(255, 0, 0);
 
     // Create objects vector
     std::vector<std::shared_ptr<Surface*> > sfVec;
@@ -50,19 +50,19 @@ int main(int argc,char ** argv)
     // Loop to create objects
     /*for(size_t i = 0; i < 1; ++i) {
         std::shared_ptr<Surface*> sharedptr =
-            std::make_shared<Surface*>(new Sphere(Vec(0, 500 + i * 5, 150), 150, redColor));
-        sfVec.push_back(sharedptr);
+            std::make_shared<Surface*>(new Sphere(VecD(0, 500 + i * 5, 150), 150, redColor));
+        sfVecD.push_back(sharedptr);
     }*/
 
     // Add Triangle
     /*std::shared_ptr<Surface*> sharedptr =
-        std::make_shared<Surface*>(new Triangle(Vec(0, 500, 500),
-                                                Vec(100, 500, 300),
-                                                Vec(100, 500, 500), redColor));
-    sfVec.push_back(sharedptr);*/
+        std::make_shared<Surface*>(new Triangle(VecD(0, 500, 500),
+                                                VecD(100, 500, 300),
+                                                VecD(100, 500, 500), redColor));
+    sfVecD.push_back(sharedptr);*/
 
     // Add Surface
-    /*EnvCreator::createCircle(sfVec, eye, 10, 2, 20, 90, 270, Vec(255, 0, 255));*/
+    /*EnvCreator::createCircle(sfVecD, eye, 10, 2, 20, 90, 270, VecD(255, 0, 255));*/
 
     // Create render
     Render rend(size);

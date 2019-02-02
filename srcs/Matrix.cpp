@@ -109,7 +109,7 @@ Matrix<T> Matrix<T>::identity(const size_t& size)
 }
 
 template <typename T>
-Matrix<T> Matrix<T>::shift(const Vec& pos)
+Matrix<T> Matrix<T>::shift(const VecD& pos)
 {
     Matrix shift = Matrix<float>::identity(4);
     shift(0,3) = pos.x();

@@ -6,7 +6,7 @@ Shading::Shading() { }
 // Destructor
 Shading::~Shading() { }
 
-Vec Shading::lamb(Vec color, Vec l, Vec n)
+VecD Shading::lamb(VecD color, VecD l, VecD n)
 {
     // Lambertian
     float lmb = l.dot(n);

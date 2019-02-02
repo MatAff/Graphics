@@ -3,19 +3,19 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
-#include "Vec.h"
+#include "VecD.h"
 
 class Surface
 {
 public:
-    Surface(); 
+    Surface();
     ~Surface();
 
-    virtual Vec intersect(Vec eye, Vec dir)=0;
-    virtual Vec normal(Vec p)=0;
-    Vec getColor();
+    virtual VecD intersect(VecD eye, VecD dir)=0;
+    virtual VecD normal(VecD p)=0;
+    VecD getColor();
 
 protected:
-    Vec c; // Center of shape
-    Vec color;
+    VecD c; // Center of shape
+    VecD color;
 };

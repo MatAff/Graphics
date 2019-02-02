@@ -7,15 +7,15 @@ EnvCreator::EnvCreator() {}
 EnvCreator::~EnvCreator() { }
 
 void EnvCreator::createWall(std::vector<std::shared_ptr<Surface*> >& sfVec,
-                        Vec s,
-                        Vec e,
+                        VecD s,
+                        VecD e,
                         float height,
-                        Vec color)
+                        VecD color)
 {
-    Vec A = s;
-    Vec B(s.x(), s.y(), s.z() + height);
-    Vec C = e;
-    Vec D(e.x(), e.y(), e.z() + height);
+    VecD A = s;
+    VecD B(s.x(), s.y(), s.z() + height);
+    VecD C = e;
+    VecD D(e.x(), e.y(), e.z() + height);
     std::shared_ptr<Surface*> sharedptr =
         std::make_shared<Surface*>(new Triangle(A, B, C, color));
     sfVec.push_back(sharedptr);
@@ -25,13 +25,13 @@ void EnvCreator::createWall(std::vector<std::shared_ptr<Surface*> >& sfVec,
 }
 
 void EnvCreator::createCircle(std::vector<std::shared_ptr<Surface*> >& sfVec,
-                        Vec c,
+                        VecD c,
                         float r,
                         float height,
                         size_t nrSteps,
                         float s,
                         float e,
-                        Vec color)
+                        VecD color)
 {
     float stepSize = (e - s) / nrSteps;
     for(size_t step = 0; step < nrSteps; ++step)
@@ -44,10 +44,10 @@ void EnvCreator::createCircle(std::vector<std::shared_ptr<Surface*> >& sfVec,
         float rad2 = Degree::degToRad(dirDeg2);
         float dx2 = sin(rad2) * r;
         float dy2 = -cos(rad2) * r;
-        Vec A(c.x() + dx, c.y() + dy, c.z());
-        Vec B(c.x() + dx, c.y() + dy, c.z() + height);
-        Vec C(c.x() + dx2, c.y() + dy2, c.z());
-        Vec D(c.x() + dx2, c.y() + dy2, c.z() + height);
+        VecD A(c.x() + dx, c.y() + dy, c.z());
+        VecD B(c.x() + dx, c.y() + dy, c.z() + height);
+        VecD C(c.x() + dx2, c.y() + dy2, c.z());
+        VecD D(c.x() + dx2, c.y() + dy2, c.z() + height);
         std::shared_ptr<Surface*> sharedptr =
             std::make_shared<Surface*>(new Triangle(A, B, C, color));
         sfVec.push_back(sharedptr);
@@ -74,41 +74,41 @@ void EnvCreator::courseAVC(std::vector<std::shared_ptr<Surface*> >& sfVec)
   int rInner = (courseHeight / 2) - courseWidth;
   int rOuter = courseHeight / 2;
 
-  EnvCreator::createCircle(sfVec, Vec(cx1, cy, 0), rOuter, couresHeight, 20, 135, 405, Vec(255, 0, 255)); // Left outer
-  EnvCreator::createCircle(sfVec, Vec(cx2, cy, 0), rOuter, couresHeight, 20, -45, 225, Vec(255, 0, 255)); // Right outer
-  EnvCreator::createCircle(sfVec, Vec(cx1, cy, 0), rInner, couresHeight, 20, 135, 405, Vec(255, 0, 255)); // Left inner
-  EnvCreator::createCircle(sfVec, Vec(cx2, cy, 0), rInner, couresHeight, 20, -45, 225, Vec(255, 0, 255)); // Right inner
+  EnvCreator::createCircle(sfVec, VecD(cx1, cy, 0), rOuter, couresHeight, 20, 135, 405, VecD(255, 0, 255)); // Left outer
+  EnvCreator::createCircle(sfVec, VecD(cx2, cy, 0), rOuter, couresHeight, 20, -45, 225, VecD(255, 0, 255)); // Right outer
+  EnvCreator::createCircle(sfVec, VecD(cx1, cy, 0), rInner, couresHeight, 20, 135, 405, VecD(255, 0, 255)); // Left inner
+  EnvCreator::createCircle(sfVec, VecD(cx2, cy, 0), rInner, couresHeight, 20, -45, 225, VecD(255, 0, 255)); // Right inner
 
   // V shapes
-  Vec s, e, m;
+  VecD s, e, m;
 
   // Left V
-  s = Degree::pointDirDist(Vec(cx1, cy, 0), 45, rInner);
-  e = Degree::pointDirDist(Vec(cx1, cy, 0), 135, rInner);
-  m = Vec(s.x() + (e.y() - s.y()) / 2, s.y() + (e.y() - s.y()) / 2, 0);
-  EnvCreator::createWall(sfVec, s, m, couresHeight, Vec(255, 0, 255));
-  EnvCreator::createWall(sfVec, m, e, couresHeight, Vec(255, 0, 255));
+  s = Degree::pointDirDist(VecD(cx1, cy, 0), 45, rInner);
+  e = Degree::pointDirDist(VecD(cx1, cy, 0), 135, rInner);
+  m = VecD(s.x() + (e.y() - s.y()) / 2, s.y() + (e.y() - s.y()) / 2, 0);
+  EnvCreator::createWall(sfVec, s, m, couresHeight, VecD(255, 0, 255));
+  EnvCreator::createWall(sfVec, m, e, couresHeight, VecD(255, 0, 255));
 
   // Right V
-  s = Degree::pointDirDist(Vec(cx2, cy, 0), 225, rInner);
-  e = Degree::pointDirDist(Vec(cx2, cy, 0), 315, rInner);
-  m = Vec(s.x() + (e.y() - s.y()) / 2, s.y() + (e.y() - s.y()) / 2, 0);
-  EnvCreator::createWall(sfVec, s, m, couresHeight, Vec(255, 0, 255));
-  EnvCreator::createWall(sfVec, m, e, couresHeight, Vec(255, 0, 255));
+  s = Degree::pointDirDist(VecD(cx2, cy, 0), 225, rInner);
+  e = Degree::pointDirDist(VecD(cx2, cy, 0), 315, rInner);
+  m = VecD(s.x() + (e.y() - s.y()) / 2, s.y() + (e.y() - s.y()) / 2, 0);
+  EnvCreator::createWall(sfVec, s, m, couresHeight, VecD(255, 0, 255));
+  EnvCreator::createWall(sfVec, m, e, couresHeight, VecD(255, 0, 255));
 
   // Top V
-  s = Degree::pointDirDist(Vec(cx2, cy, 0), 225, rOuter);
-  e = Degree::pointDirDist(Vec(cx1, cy, 0), 135, rOuter);
-  m = Vec(s.x() + (e.x() - s.x()) / 2, s.y() + (e.x() - s.x()) / 2, 0);
-  EnvCreator::createWall(sfVec, s, m, couresHeight, Vec(255, 0, 255));
-  EnvCreator::createWall(sfVec, m, e, couresHeight, Vec(255, 0, 255));
+  s = Degree::pointDirDist(VecD(cx2, cy, 0), 225, rOuter);
+  e = Degree::pointDirDist(VecD(cx1, cy, 0), 135, rOuter);
+  m = VecD(s.x() + (e.x() - s.x()) / 2, s.y() + (e.x() - s.x()) / 2, 0);
+  EnvCreator::createWall(sfVec, s, m, couresHeight, VecD(255, 0, 255));
+  EnvCreator::createWall(sfVec, m, e, couresHeight, VecD(255, 0, 255));
 
   // Bottom V
-  s = Degree::pointDirDist(Vec(cx1, cy, 0), 45, rOuter);
-  e = Degree::pointDirDist(Vec(cx2, cy, 0), 315, rOuter);
-  m = Vec(s.x() + (e.x() - s.x()) / 2, s.y() + (e.x() - s.x()) / 2, 0);
-  EnvCreator::createWall(sfVec, s, m, couresHeight, Vec(255, 0, 255));
-  EnvCreator::createWall(sfVec, m, e, couresHeight, Vec(255, 0, 255));
+  s = Degree::pointDirDist(VecD(cx1, cy, 0), 45, rOuter);
+  e = Degree::pointDirDist(VecD(cx2, cy, 0), 315, rOuter);
+  m = VecD(s.x() + (e.x() - s.x()) / 2, s.y() + (e.x() - s.x()) / 2, 0);
+  EnvCreator::createWall(sfVec, s, m, couresHeight, VecD(255, 0, 255));
+  EnvCreator::createWall(sfVec, m, e, couresHeight, VecD(255, 0, 255));
 
 
 }

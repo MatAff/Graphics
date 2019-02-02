@@ -7,7 +7,7 @@
 Render::Render(cv::Size size) {
 
     // Set Lighting
-    l = Vec(-1, -1, 1);
+    l = VecD(-1, -1, 1);
     l = l / l.len();
 
     // Set frame size
@@ -18,7 +18,7 @@ Render::Render(cv::Size size) {
 // Destructor
 Render::~Render() { }
 
-void Render::renderObjOrder(cv::Mat& frame, std::vector<std::shared_ptr<Surface*>> sfVec, Vec eye, Vec dir)
+void Render::renderObjOrder(cv::Mat& frame, std::vector<std::shared_ptr<Surface*>> sfVecD, VecD eye, VecD dir)
 {
     // Move points such that they appear as if the camera equals the origin
 
@@ -39,7 +39,7 @@ void Render::renderObjOrder(cv::Mat& frame, std::vector<std::shared_ptr<Surface*
     RS.print();
 
     // Loop through objs
-    for(std::shared_ptr<Surface*> sfptr : sfVec) {
+    for(std::shared_ptr<Surface*> sfptr : sfVecD) {
 
        // Get surface
         Surface* sf = *sfptr;
@@ -58,40 +58,40 @@ void Render::renderObjOrder(cv::Mat& frame, std::vector<std::shared_ptr<Surface*
 }
 
 // Render method
-void Render::render(cv::Mat& frame, std::vector<std::shared_ptr<Surface*> >  sfVec, Vec eye, Vec dir)
+void Render::render(cv::Mat& frame, std::vector<std::shared_ptr<Surface*> >  sfVecD, VecD eye, VecD dir)
 {
 
     // Clear frame
     frame = cv::Scalar(0, 0, 0);
 
     // View frame
-    Vec w = dir / -dir.len();
-    Vec u = Vec(0,0,1).cross(w);
+    VecD w = dir / -dir.len();
+    VecD u = VecD(0,0,1).cross(w);
     u = u / u.len();
-    Vec v = w.cross(u);
+    VecD v = w.cross(u);
 
     // Loop through pixels
     for(int c = 0; c < size.width; ++c) {
         float ru = left + (right - left) * ((float)c + 0.5) / (float)size.width;
         for(int r = 0; r < size.height; ++r) {
             float rv = top - (top - bottom) * ((float)r + 0.5) / (float)size.height;
-            Vec pDir = dir * distance + u * ru + v * rv;
+            VecD pDir = dir * distance + u * ru + v * rv;
 
             // Calculate intersect
             //float* minDist = nullptr;
             float minDist = 999999999;
             float dist;
-            for(std::shared_ptr<Surface*> sfptr : sfVec) {
+            for(std::shared_ptr<Surface*> sfptr : sfVecD) {
                 Surface* sf = *sfptr;
-                Vec res = sf->intersect(eye, pDir);
+                VecD res = sf->intersect(eye, pDir);
                 if (res.values.size() > 0) {
                     dist = (res - eye).len();
                     //if (!minDist || dist < *minDist) {
                     if (dist < minDist) {
                         minDist = dist;
-                        Vec norm = sf->normal(res);
-                        Vec color = sf->getColor();
-                        Vec shade = Shading::lamb(color, l, norm);
+                        VecD norm = sf->normal(res);
+                        VecD color = sf->getColor();
+                        VecD shade = Shading::lamb(color, l, norm);
                         frame.at<cv::Vec3b>(r, c) = cv::Vec3b(shade.values[0], shade.values[1], shade.values[2]);
                     }
                 }

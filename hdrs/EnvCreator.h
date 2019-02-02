@@ -11,21 +11,21 @@ public:
     ~EnvCreator();
 
 static void createWall(std::vector<std::shared_ptr<Surface*> >& sfVec,
-                        Vec s,
-                        Vec e,
+                        VecD s,
+                        VecD e,
                         float height,
-                        Vec color);
+                        VecD color);
 
 static void createCircle(std::vector<std::shared_ptr<Surface*> >& sfVec,
-                        Vec c,
+                        VecD c,
                         float r,
                         float height,
                         size_t nrSteps,
                         float s,
                         float e,
-                        Vec color);
+                        VecD color);
 
-static void courseAVC(std::vector<std::shared_ptr<Surface*> >& sfVec);                        
+static void courseAVC(std::vector<std::shared_ptr<Surface*> >& sfVec);
 //private:
 
 };

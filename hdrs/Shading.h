@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cmath>
-#include "Vec.h"
+#include "VecD.h"
 
 class Shading
 {
@@ -9,8 +9,8 @@ public:
    Shading();
    ~Shading();
 
-   static Vec lamb(Vec color, Vec l, Vec n);
+   static VecD lamb(VecD color, VecD l, VecD n);
 
-   //static kd = 0.5; // Diffuse coefficient 
-   
+   //static kd = 0.5; // Diffuse coefficient
+
 };

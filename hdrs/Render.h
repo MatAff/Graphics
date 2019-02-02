@@ -15,13 +15,13 @@ public:
    Render(cv::Size size);
    ~Render();
 
-   void render(cv::Mat& frame, std::vector<std::shared_ptr<Surface*>> sfVec, Vec eye, Vec dir);
-   void renderObjOrder(cv::Mat& frame, std::vector<std::shared_ptr<Surface*>> sfVec, Vec eye, Vec dir);
+   void render(cv::Mat& frame, std::vector<std::shared_ptr<Surface*>> sfVec, VecD eye, VecD dir);
+   void renderObjOrder(cv::Mat& frame, std::vector<std::shared_ptr<Surface*>> sfVec, VecD eye, VecD dir);
 
 private:
 
     // Lighting
-    Vec l;
+    VecD l;
 
     // View frame
     float distance = 5;

@@ -5,7 +5,7 @@ Surface::Surface() { }
 
 Surface::~Surface() {}
 
-Vec Surface::getColor()
+VecD Surface::getColor()
 {
     return color;
 }
