@@ -1,16 +1,16 @@
 #include "VecD.h"
 #include <math.h>
 
-VecD::VecD() {}
+VecD::VecD() : Vec() {}
 
-VecD::VecD(float x, float y)
+VecD::VecD(float x, float y) : Vec(x, y)
 {
     values.resize(2);
     values[0] = x;
     values[1] = y;
 }
 
-VecD::VecD(float x, float y, float z)
+VecD::VecD(float x, float y, float z) : Vec(x, y, z)
 {
     values.resize(3);
     values[0] = x;

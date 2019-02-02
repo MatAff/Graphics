@@ -4,9 +4,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
-//#include "Vec.h"
+#include "Vec.h"
 
-class VecD
+class VecD : public Vec
 {
 public:
     VecD();
