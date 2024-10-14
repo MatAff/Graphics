@@ -18,8 +18,8 @@ else:
     
 while True:
     
-    x = my_joystick.get_axis(0)
-    y = my_joystick.get_axis(1)
+    x = my_joystick.get_axis(2)
+    y = my_joystick.get_axis(3)
     if x != 0.0:
         print(x, y)
     for event in pygame.event.get():
@@ -27,6 +27,7 @@ while True:
             done = True
         if event.type == pygame.JOYBUTTONDOWN:
             print("Joystick button pressed.")
+            print(event)
         if event.type == pygame.JOYBUTTONUP:
             print("Joystick button released.")
     time.sleep(0.05)

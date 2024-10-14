@@ -2,17 +2,38 @@ import cv2
 import math
 import numpy as np
 import random
-from playsound import playsound
+# from playsound import playsound
 
 from fps import FPS
 from keys import *
 
-WIDTH, HEIGHT = [(1366, 768), (640 * 2, 480 * 2), (640, 480)][0]
+import pygame
+import time
+
+pygame.init()
+# pygame.joystick.init()
+# pygame.video.get()
+
+# Count the joysticks the computer has
+joystick_count = pygame.joystick.get_count()
+if joystick_count == 0:
+    # No joysticks!
+    print("Error, I didn't find any joysticks.")
+    my_joystick = None
+else:
+    # Use joystick #0 and initialize it
+    my_joystick = pygame.joystick.Joystick(0)
+    my_joystick.init()
+
+
+WIDTH, HEIGHT = [(1366, 768), (640, 480)][1]  # TODO: Set to 0
 DRAW_HEIGHT = 240
 DRAW_START_HEIGHT = 240
 REQ_OBJECTS = 1
 RED = (0, 0, 255, 128)
 BLUE = (255, 255, 0, 128)
+d3 = False
+shoot = False
 
 fps = FPS(5)
 
@@ -74,10 +95,6 @@ def add_window(frame):
     cv2.line(frame, [int(WIDTH * 0.25), int(HEIGHT / 2)], [0, 0], grey, 6)
     cv2.line(frame, [int(WIDTH * 0.75), int(HEIGHT / 2)], [WIDTH, 0], grey, 6)
 
-def show(frame):
-    cv2.imshow("Frame", frame)
-    return cv2.waitKeyEx(5)
-
 def draw(frame, arr, h, w, y_start, xi, yi, zi, top=False, rgb=(255, 255, 255)):
     if top:
         draw_arr = arr[arr[:, zi] < 0]
@@ -99,42 +116,20 @@ def draw(frame, arr, h, w, y_start, xi, yi, zi, top=False, rgb=(255, 255, 255)):
         if xx > -50 and xx < WIDTH + 50 and yy > y_start and yy < y_start + h:
             cv2.circle(frame, [int(xx), int(yy)], int(abs(ss) * 1.25), rgb, -1)
 
-def handle_key(key):
-    global running
-    global speed
-    global rotation_speed_x
-    global rotation_speed_y
-    global rotation_speed_z
-    global target_x
-    global target_y
-    if key == ESC : running = False
-    if key == R_SHIFT : speed = speed + 1; print('faster')
-    if key == R_CTRL :  speed = speed - 1
-    if key == RIGHT : rotation_speed_y = rotation_speed_y + 0.0001
-    if key == LEFT : rotation_speed_y = rotation_speed_y - 0.0001
-    if key == UP : rotation_speed_x = rotation_speed_x - 0.0001
-    if key == DOWN : rotation_speed_x = rotation_speed_x + 0.0001
-    if key == DEL : rotation_speed_z = rotation_speed_z + 0.0001
-    if key == PAGE_UP : rotation_speed_z = rotation_speed_z + 0.0001
-    if key == PAGE_DOWN : rotation_speed_z = rotation_speed_z - 0.0001
-    if key == A_KEY : target_x = target_x - 2
-    if key == S_KEY : target_y = target_y + 2
-    if key == W_KEY : target_y = target_y - 2
-    if key == D_KEY : target_x = target_x + 2
-    if key == SPACE : pass
-
-def draw_target(frame, target_x, target_y, key):
+def draw_target(frame, target_x, target_y, shoot):
     draw_x = int(target_x + WIDTH * 0.5)
     draw_y = int(target_y + HEIGHT * 0.75)
     cv2.circle(frame, [draw_x, draw_y], 10, RED, 1)
     cv2.line(frame, [draw_x -15, draw_y], [draw_x + 15, draw_y], RED, 1)
     cv2.line(frame, [draw_x, draw_y - 15], [draw_x, draw_y + 15], RED, 1)
-    if key == SPACE:
+    if shoot:
         cv2.line(frame, [draw_x, draw_y], [int(WIDTH / 2), HEIGHT], RED, 3)
         # TODO: Handle latency in Windows
-        playsound('laser-blip.wav', False)
-        return draw_x, draw_y
-    return -100, -100
+        # Re-enable playsounds
+        # playsound('laser-blip.wav', False)
+        shoot = False
+        return draw_x, draw_y, shoot
+    return -100, -100, shoot
 
 def draw_obj(frame, obj_arr, h, w): # , , y_start, xi, yi, zi, top=False):
     """Draw objects across both frames. Don't worry about distortion to begin with."""
@@ -198,16 +193,16 @@ def draw_obj(frame, obj_arr, h, w): # , , y_start, xi, yi, zi, top=False):
     return draw_positions
 
 def check_hit(object_draw_positions, target_x, target_y):
+    keep_list = []
     for x, y, size in object_draw_positions:
-        # print(x, y, target_x, target_y)
         dist = ((target_x - x)**2 + (target_y - y)**2)**0.5
-        # print(dist, size)
-        if dist < size * 50:
-            # print('hit')
-            playsound('lo-fi-explosion_16bpm_C_major.wav', False)
+        keep_list.append(bool(dist > size * 1000))
+        # playsound('lo-fi-explosion_16bpm_C_major.wav', False)
+    return keep_list
 
-cv2.namedWindow('Frame', cv2.WND_PROP_FULLSCREEN)
-cv2.setWindowProperty('Frame', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+# TODO: Uncomment
+# cv2.namedWindow('Frame', cv2.WND_PROP_FULLSCREEN)
+# cv2.setWindowProperty('Frame', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
 # Higher value leads to better result, but more flashing
 # Potentially only show start within a certain distance e.g. < 1000
@@ -246,38 +241,77 @@ while running:
 
     front_frame = np.zeros((int(HEIGHT / 2), WIDTH, 3), dtype = np.uint8)
     top_frame = np.zeros((int(HEIGHT / 2), WIDTH, 3), dtype = np.uint8)
-    # draw(front_frame, arr, HEIGHT / 2, WIDTH, 0, 0, 1, 2, False)
-    # draw(top_frame, arr, HEIGHT / 2, WIDTH, 0, 0, 2, 1, True)
-    
-    draw(front_frame, shift_arr, HEIGHT / 2, WIDTH, 0, 0, 1, 2, False, BLUE)
-    draw(top_frame, shift_arr, HEIGHT / 2, WIDTH, 0, 0, 2, 1, True, BLUE)
-    
-    # TODO: draw red/blue
+    if d3 == False:
+        draw(front_frame, arr, HEIGHT / 2, WIDTH, 0, 0, 1, 2, False)
+        draw(top_frame, arr, HEIGHT / 2, WIDTH, 0, 0, 2, 1, True)
+    else:
+        draw(front_frame, shift_arr, HEIGHT / 2, WIDTH, 0, 0, 1, 2, False, BLUE)
+        draw(top_frame, shift_arr, HEIGHT / 2, WIDTH, 0, 0, 2, 1, True, BLUE)
+        
     top_frame = cv2.warpPerspective(top_frame, M, (top_frame.shape[1], top_frame.shape[0]))
     frame = cv2.vconcat([top_frame, front_frame])
 
-    front_frame_overlay = np.zeros((int(HEIGHT / 2), WIDTH, 3), dtype = np.uint8)
-    top_frame_overlay = np.zeros((int(HEIGHT / 2), WIDTH, 3), dtype = np.uint8)
-    draw(front_frame_overlay, arr, HEIGHT / 2, WIDTH, 0, 0, 1, 2, False, RED)
-    draw(top_frame_overlay, arr, HEIGHT / 2, WIDTH, 0, 0, 2, 1, True, RED)
-    top_frame_overlay = cv2.warpPerspective(
-        top_frame_overlay, M, (
-            top_frame_overlay.shape[1],
-            top_frame_overlay.shape[0]))
-    frame_overlay = cv2.vconcat([top_frame_overlay, front_frame_overlay])
-    frame = cv2.addWeighted(frame, 0.5, frame_overlay, 0.5, 0) 
-
+    if d3:
+        front_frame_overlay = np.zeros((int(HEIGHT / 2), WIDTH, 3), dtype = np.uint8)
+        top_frame_overlay = np.zeros((int(HEIGHT / 2), WIDTH, 3), dtype = np.uint8)
+        draw(front_frame_overlay, arr, HEIGHT / 2, WIDTH, 0, 0, 1, 2, False, RED)
+        draw(top_frame_overlay, arr, HEIGHT / 2, WIDTH, 0, 0, 2, 1, True, RED)
+        top_frame_overlay = cv2.warpPerspective(
+            top_frame_overlay, M, (
+                top_frame_overlay.shape[1],
+                top_frame_overlay.shape[0]))
+        frame_overlay = cv2.vconcat([top_frame_overlay, front_frame_overlay])
+        frame = cv2.addWeighted(frame, 0.5, frame_overlay, 0.5, 0) 
 
     if len(obj_arr) > 0:
         object_draw_positions = draw_obj(frame, obj_arr, HEIGHT / 2, WIDTH)
-        draw_x, draw_y = draw_target(frame, target_x, target_y, key)
+        if shoot:
+            keep_list = check_hit(object_draw_positions, draw_x, draw_y)
+            obj_arr = obj_arr[keep_list]
+        draw_x, draw_y, shoot = draw_target(frame, target_x, target_y, shoot)
         # TODO: Validate hit works correctly
-        check_hit(object_draw_positions, draw_x, draw_y)
 
     add_window(frame)
-    key = show(frame)
+    cv2.imshow("Frame", frame)
+    key = cv2.waitKeyEx(5)
+    max_rotation = 0.005
+    if my_joystick:
+        joy_thresh = 0.5
+        x, y = my_joystick.get_axis(3), my_joystick.get_axis(2)
+        tx, ty = my_joystick.get_axis(1), my_joystick.get_axis(0)
+        if x > joy_thresh : rotation_speed_x = min(rotation_speed_x + 0.0001, max_rotation)
+        if x < -joy_thresh : rotation_speed_x = max(rotation_speed_x - 0.0001, -max_rotation)
+        if y > joy_thresh : rotation_speed_y = min(rotation_speed_y + 0.0001, max_rotation)
+        if y < -joy_thresh : rotation_speed_y = max(rotation_speed_y - 0.0001, -max_rotation)
+        if tx > joy_thresh : target_y = target_y + 2; 
+        if tx < -joy_thresh : target_y = target_y - 2
+        if ty > joy_thresh : target_x = target_x + 2
+        if ty < -joy_thresh : target_x = target_x - 2
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT : done = True
+            if event.type == pygame.JOYBUTTONDOWN:
+                if event.button == 8 : shoot = True
+                if event.button == 2 : d3 = d3 == False
+            # if event.type == pygame.JOYBUTTONUP : print("Joystick button released.")
     if key != -1 : print(key)
-    handle_key(key)
+    if key == ESC : running = False
+    if key == R_SHIFT : speed = speed + 1
+    if key == R_CTRL :  speed = speed - 1
+    if key == RIGHT : rotation_speed_y = min(rotation_speed_y + 0.0001, max_rotation)
+    if key == LEFT : rotation_speed_y = max(rotation_speed_y - 0.0001, -max_rotation)
+    if key == UP : rotation_speed_x = max(rotation_speed_x - 0.0001, -max_rotation)
+    if key == DOWN : rotation_speed_x = min(rotation_speed_x + 0.0001, max_rotation)
+    if key == DEL : rotation_speed_z = rotation_speed_z + 0.0001
+    if key == PAGE_UP : rotation_speed_z = rotation_speed_z + 0.0001
+    if key == PAGE_DOWN : rotation_speed_z = rotation_speed_z - 0.0001
+    if key == A_KEY : target_x = target_x - 2
+    if key == S_KEY : target_y = target_y + 2
+    if key == W_KEY : target_y = target_y - 2
+    if key == D_KEY : target_x = target_x + 2
+    if key == SPACE : shoot = True
+    if key == Q_KEY : d3 = d3 == False
     fps.update(True)
+
+    rotation_speed_x, rotation_speed_y = rotation_speed_x * 0.999, rotation_speed_y * 0.999
 
 cv2.destroyAllWindows()

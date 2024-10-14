@@ -14,6 +14,7 @@ A_KEY = 97
 S_KEY = 115
 D_KEY = 100  # Correct
 W_KEY = 119  # Correct
+Q_KEY = 113  # Correct
 SPACE = 32  # Correct
 
 
