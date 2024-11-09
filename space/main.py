@@ -11,22 +11,16 @@ import pygame
 import time
 
 pygame.init()
-# pygame.joystick.init()
-# pygame.video.get()
-
-# Count the joysticks the computer has
 joystick_count = pygame.joystick.get_count()
 if joystick_count == 0:
-    # No joysticks!
     print("Error, I didn't find any joysticks.")
     my_joystick = None
 else:
-    # Use joystick #0 and initialize it
     my_joystick = pygame.joystick.Joystick(0)
     my_joystick.init()
 
 
-WIDTH, HEIGHT = [(1366, 768), (640, 480)][1]  # TODO: Set to 0
+WIDTH, HEIGHT = [(1366, 768), (640, 480)][0]  # TODO: Set to 0
 DRAW_HEIGHT = 240
 DRAW_START_HEIGHT = 240
 REQ_OBJECTS = 1
@@ -53,7 +47,7 @@ def add_stars(arr):
     return arr
 
 def add_objects(obj_arr):
-    if len(obj_arr) < REQ_OBJECTS:
+    if len(obj_arr) < REQ_OBJECTS and random.randint(0, 100) < 5:  # Set back to 10000
         add_obj_arr = np.asarray(np.random.randint(low=-2000, high=2000, size=(1, 4)))
         add_obj_arr[:, 2] = 1000  # Add far away # TODO: Consider adding throughout
         add_obj_arr[0, 3] = np.random.randint(low=0, high=len(object_images))
@@ -106,13 +100,7 @@ def draw(frame, arr, h, w, y_start, xi, yi, zi, top=False, rgb=(255, 255, 255)):
         y = draw_arr[:, yi] / draw_arr[:, zi] * h / 2 + h / 2 + y_start
     dist = (draw_arr[:, 0]**2 + draw_arr[:, 1]**2 + draw_arr[:, 2]**2)**0.5
     size = 750 / dist
-    # r = draw_arr[:, 4]
-    # g = draw_arr[:, 5]
-    # b = draw_arr[:, 6]
     for xx, yy, ss in zip(x, y, size):
-        # to_color = lambda v: int(abs(v/1000*255))
-        # rgb = (to_color(rr), to_color(gg), to_color(bb))
-        # rgb = (255, 255, 255)
         if xx > -50 and xx < WIDTH + 50 and yy > y_start and yy < y_start + h:
             cv2.circle(frame, [int(xx), int(yy)], int(abs(ss) * 1.25), rgb, -1)
 
@@ -168,12 +156,6 @@ def draw_obj(frame, obj_arr, h, w): # , , y_start, xi, yi, zi, top=False):
         x_offset = x_offset + max(-x_offset, 0)
         y_offset = y_offset + max(-y_offset, 0)
 
-        # # Create a mask with transparency
-        # # TODO: Calculate mask ahead of time and resize only
-        # mask = cv2.bitwise_not(cv2.cvtColor(img_show, cv2.COLOR_BGR2GRAY))
-        # ret, mask = cv2.threshold(mask, 5, 255, cv2.THRESH_BINARY)
-        # mask = mask.astype(bool)
-
         # Create a mask with transparency
         color_min = np.array([147, 100, 0],np.uint8)
         color_max = np.array([151, 255, 255],np.uint8)
@@ -181,28 +163,24 @@ def draw_obj(frame, obj_arr, h, w): # , , y_start, xi, yi, zi, top=False):
         mask = cv2.inRange(HSV, color_min, color_max)
         mask = ~mask.astype(bool)
 
-        # Extract ROI from the frame
-        roi = frame[y_offset:y_offset + img_show.shape[0],
-                    x_offset:x_offset + img_show.shape[1]]
+        roi = frame[y_offset:y_offset + img_show.shape[0], x_offset:x_offset + img_show.shape[1]]  # Extract ROI from the frame
 
         # Use bitwise operations for transparency
-        frame[y_offset:y_offset + img_show.shape[0],
-              x_offset:x_offset + img_show.shape[1]][mask] = (
-                  cv2.addWeighted(roi, 0, img_show, 1.0, 0)[mask]
-            )
+        frame[y_offset:y_offset + img_show.shape[0], x_offset:x_offset + img_show.shape[1]][mask] = (
+                  cv2.addWeighted(roi, 0, img_show, 1.0, 0)[mask])
     return draw_positions
 
 def check_hit(object_draw_positions, target_x, target_y):
     keep_list = []
     for x, y, size in object_draw_positions:
         dist = ((target_x - x)**2 + (target_y - y)**2)**0.5
-        keep_list.append(bool(dist > size * 1000))
+        keep_list.append(bool(dist > size * 2000))
         # playsound('lo-fi-explosion_16bpm_C_major.wav', False)
     return keep_list
 
 # TODO: Uncomment
-# cv2.namedWindow('Frame', cv2.WND_PROP_FULLSCREEN)
-# cv2.setWindowProperty('Frame', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+cv2.namedWindow('Frame', cv2.WND_PROP_FULLSCREEN)
+cv2.setWindowProperty('Frame', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
 # Higher value leads to better result, but more flashing
 # Potentially only show start within a certain distance e.g. < 1000
@@ -211,11 +189,8 @@ M = get_warp(HEIGHT / 2, WIDTH, WIDTH * 3)  # Play with this value
 # TODO: Add more objects
 ds2 = cv2.imread("ds2.jpeg")
 cow3 = cv2.imread("cow3.jpeg")
-object_images = [ds2, cow3]
-
-# ds = cv2.imread("space_cow.jpeg")
-# ds = cv2.cvtColor(ds_in, cv2.COLOR_RGB2BGR)
-# assert ds is not None
+earth = cv2.imread("earth.jpeg")
+object_images = [ds2, cow3, earth, cv2.imread("nebula.jpeg"), cv2.imread("astro.jpeg"), cv2.imread("tesla.jpeg")]
 
 obj_arr = np.empty(shape=(0, 4))
 
